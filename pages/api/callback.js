@@ -1,7 +1,6 @@
 import querystring from "querystring";
 import { serialize } from "cookie";
 import axios from "axios";
-import cookieCutter from "cookie-cutter";
 export default async (req, res) => {
 	const state_key = "spotify_auth_state";
 
@@ -39,23 +38,12 @@ export default async (req, res) => {
 		});
 
 		const { access_token, refresh_token } = response.data;
-		console.log("ACCESS TOKEN: ", access_token);
-		console.log("refresh TOKEN: ", refresh_token);
-		// await cookieCutter.set("refresh_token", refresh_token, { expires: 60 * 60 * 24 * 7})
-		// await cookieCutter.set("access_token", access_token, { expires: 60 * 60 * 24 * 7})
 
-		// await res.setHeader(
-		// 	"Set-Cookie",
-		// 	serialize("b", refresh_token, {
-		//             path: "/",
-		//             maxAge: 60 * 60 * 24 * 7
-		//         }
-		//     )
-		// );
+
 		await res.setHeader("Set-Cookie", [
 			serialize("a", access_token, {
 				path: "/",
-				maxAge: 60 * 60 * 24 * 7,
+				maxAge: 60 * 60 * 24,
 			}),
 			serialize("b", refresh_token, {
 				path: "/",

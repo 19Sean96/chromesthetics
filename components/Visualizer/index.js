@@ -7,7 +7,7 @@ import { OrbitControls } from "drei";
 import cubes from "../../data/cubes";
 import MovingLight from "./MovingLight";
 import Surroundings from './Surroundings.js'
-export default (props) => {
+const Visualizer = (props) => {
 	return (
 		<Canvas
 			camera={{
@@ -40,3 +40,5 @@ export default (props) => {
 		</Canvas>
 	);
 };
+
+export default Visualizer

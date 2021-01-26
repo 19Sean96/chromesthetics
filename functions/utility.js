@@ -21,4 +21,8 @@ const initMiddleware = function (middleware) {
 		});
 };
 
-export { generateRandomString, initMiddleware };
+const roundTo = (n, d=2) => +n.toFixed(d)
+const randsgn = () => Math.pow(-1, Math.round(Math.random))
+const rand = (max = 1, min = 0, d = 2) => roundTo(min + (max - min) * Math.random(), d)
+
+export { generateRandomString, initMiddleware, roundTo, randsgn, rand };

@@ -36,3 +36,5 @@ yarn-error.log*
 #ENVIRONMENT VARIABLES
 .env
 .env.local
+
+report.*.json

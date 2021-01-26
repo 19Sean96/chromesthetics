@@ -14,9 +14,14 @@ export default function Provider ({ children }) {
     const [trackFeatures, setTrackFeatures] = useState()
     const [trackAnalysis, setTrackAnalysis] = useState()
 
+
+    // useEffect(() => {
+
+    // })
+
     return (
         <SpotifyContext.Provider value={{
-            tokens,
+            tokens, setTokens,
             player,
             device,
             loggedIn,

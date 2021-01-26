@@ -1,11 +1,10 @@
 import "./index.scss";
-import { CookiesProvider } from "react-cookie";
-
+import SpotifyContext from '../components/context'
 function MyApp({ Component, pageProps }) {
 	return (
-		<CookiesProvider>
+		<SpotifyContext>
 			<Component {...pageProps} />
-		</CookiesProvider>
+		</SpotifyContext>
 	);
 }
 

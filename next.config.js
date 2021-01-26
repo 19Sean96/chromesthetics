@@ -1,3 +1,3 @@
 const withTM = require('next-transpile-modules')(['drei', 'three'])
-
-module.exports = withTM()
+const withSass = require('@zeit/next-sass')
+module.exports = withSass(withTM())

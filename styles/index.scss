@@ -1,0 +1,45 @@
+@import './track';
+@import './login';
+
+* {
+	color: black;
+	// color: #df3333;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+	text-align: center;
+  background-color: #f5f5f5;  
+  font-family: reason-new, sans-serif;
+	font-weight: 400;
+  font-style: normal;
+  font-size: calc(10px + 2vmin);
+
+}
+
+
+canvas {
+  width: 100%;
+  height: 100vh;
+}
+
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  position: relative;
+}
+
+.oath {
+	font-size: 10px;
+}

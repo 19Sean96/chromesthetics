@@ -1,0 +1,15 @@
+.track {
+    position: fixed;
+    top: 25px;
+    left: 50px;
+    z-index: 100;
+    color: white;
+    text-align: left;
+    line-height: .8;
+    &--artist {
+        font-size: 42.5px;
+    }
+    &--song {
+        font-size: 57px;
+    }
+}

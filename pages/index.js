@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Visualizer from "../components/Visualizer";
 import Controls from "../components/Controls";
 import Login from "../components/Login";
-
+import Track from "../components/Info/Track";
 const Index = () => {
 	const requestRef = useRef(null);
 
@@ -27,22 +27,20 @@ const Index = () => {
 	const [time, setTime] = useState({
 		current: 0,
 		total: 0,
-  });
-  
-  const setCurrentDevice = async (token, id) => {
+	});
 
-    const res = await fetch('/api/setCurrentDevice', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({token,id})
-    })
-    const response = await res.json()
+	const setCurrentDevice = async (token, id) => {
+		const res = await fetch("/api/setCurrentDevice", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ token, id }),
+		});
+		const response = await res.json();
 
-    console.log("SET CURRENT DEVICE RESPONSE: ", response);
-    return response
-  }
+		return response;
+	};
 
 	const handleSDKLoaded = () => {
 		return new Promise((resolve) => {
@@ -71,7 +69,6 @@ const Index = () => {
 	const trackSongTime = (t) => {
 		// console.log(t);
 		if (!isPlaying) {
-			console.log("IT IS NOT PLAYING");
 			requestRef.current = null;
 			return cancelAnimationFrame(requestRef.current);
 		}
@@ -100,8 +97,8 @@ const Index = () => {
 
 	useEffect(() => {
 		window.onSpotifyWebPlaybackSDKReady = () => console.log("It IS READY");
-  }, []);
-  
+	}, []);
+
 	useEffect(() => {
 		if (requestRef.current == null) {
 			requestRef.current = requestAnimationFrame(trackSongTime);
@@ -110,35 +107,37 @@ const Index = () => {
 		return () => cancelAnimationFrame(requestRef.current);
 	}, [isPlaying]);
 
-	useEffect(async() => {
+	useEffect(async () => {
 		if (track) {
+      console.log("TRACK INFO: ", track);
 			const { id } = track.current_track;
-      getSongTimeStamp();
-      
-      const analysisRes = await fetch('/api/getAnalysis', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({id, token: tokens[0]})
-      })
-      const analysis = await analysisRes.json()
+			getSongTimeStamp();
 
-      const featuresRes = await fetch('/api/getFeatures', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({id, token: tokens[0]})
-      })
-      const features = await featuresRes.json()
+			const analysisRes = await fetch("/api/getAnalysis", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ id, token: tokens[0] }),
+			});
+			const analysis = await analysisRes.json();
+      console.log("ANALYSIS RESULTS: ", analysis);
+			const featuresRes = await fetch("/api/getFeatures", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ id, token: tokens[0] }),
+			});
+			const features = await featuresRes.json();
+      console.log("FEATURES RESULTS: ", features);
 
-      // getAudioAnalysis(id, tokens[0]).then((analysis) =>
+			// getAudioAnalysis(id, tokens[0]).then((analysis) =>
 			// 	getAudioFeatures(id, tokens[0]).then((features) =>
 			// 		setAudioDetails({ features, analysis })
 			// 	)
-      // );
-      setAudioDetails({ features, analysis })
+			// );
+			setAudioDetails({ features, analysis });
 		}
 	}, [track?.current_track?.id]);
 
@@ -199,10 +198,10 @@ const Index = () => {
 				console.log("Ready with Device ID", device_id);
 				if (!device) {
 					setCurrentDevice(tokens[0], device_id).then((res) => {
-            console.log(res);
-            if (res.message === "success") {
-              setDevice(res.id);
-            }
+						console.log(res);
+						if (res.message === "success") {
+							setDevice(res.id);
+						}
 						// setIsPlaying(true)
 					});
 				}
@@ -228,14 +227,22 @@ const Index = () => {
 				<title>Chromesthetics</title>
 				<link rel="icon" href="/favicon.ico" type="image/x-icon" />
 				<script
-					crossOrigin
+					crossOrigin="true"
 					src="https://sdk.scdn.co/spotify-player.js"
 				></script>
 			</Head>
 			<main className="main">
 				{!loggedIn && <Login />}
+				{track && <Track track={track}/>}
 				<Visualizer />
-				<Controls />
+				<Controls
+					player={player}
+					isPlaying={isPlaying}
+					track={track}
+					time={time}
+					setTime={setTime}
+					currentBarWidth={currentBarWidth}
+				/>
 			</main>
 		</div>
 	);

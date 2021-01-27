@@ -3,7 +3,7 @@ import axios from "axios";
 export default async (req, res) => {
 	const { token, id } = req.body;
 	console.log(token, id);
-	let response;
+	let response, error
     try {
         response = await axios({
             url: `https://api.spotify.com/v1/audio-features/${id}`,
@@ -17,9 +17,9 @@ export default async (req, res) => {
         console.log("THIS IS THE AUDIO FEATURES", response.data);
 
     } catch (err) {
-		console.error(err);
-		response = false;
+		console.error(err.response.status, err.response.statusText);
+        error = err.response
 	} finally {
-		res.json(response.data);
+		res.json(response.status === 200 ? response.data : error);
 	}
 };

@@ -8,11 +8,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
     "cors": "^2.8.5",
     "drei": "2.2.13",
+    "gsap": "./gsap-bonus.tgz",
     "next": "10.0.5",
     "node-sass": "^5.0.0",
     "querystring": "^0.2.0",

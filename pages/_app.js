@@ -1,4 +1,4 @@
-import "./index.scss";
+import "../styles/index.scss";
 import SpotifyContext from '../components/context'
 function MyApp({ Component, pageProps }) {
 	return (

@@ -3,7 +3,7 @@ import { serialize } from "cookie";
 import axios from "axios";
 export default async (req, res) => {
 	const state_key = "spotify_auth_state";
-
+    console.log(req);
 	const code = req.query.code || null;
 	const state = req.query.state || null;
 	const storedState = req.cookies ? req.cookies[state_key] : null;
@@ -21,7 +21,7 @@ export default async (req, res) => {
 	} else {
 		const response = await axios({
 			url: "https://accounts.spotify.com/api/token",
-			method: "post",
+			method: "POST",
 			params: {
 				code: code,
 				redirect_uri: REDIRECT_URI,
@@ -43,7 +43,7 @@ export default async (req, res) => {
 		await res.setHeader("Set-Cookie", [
 			serialize("a", access_token, {
 				path: "/",
-				maxAge: 60 * 60 * 24,
+				maxAge: 3600,
 			}),
 			serialize("b", refresh_token, {
 				path: "/",

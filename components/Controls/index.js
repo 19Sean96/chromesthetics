@@ -7,7 +7,7 @@ import {
 	faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-import MorphingPlayPause from './MorphingPlayPause'
+import MorphingPlayPause from "./MorphingPlayPause";
 
 const Controls = ({
 	player,
@@ -19,11 +19,23 @@ const Controls = ({
 }) => {
 	const controlThumb = useRef(null);
 	const controlBar = useRef(null);
-    const timeRequestRef = useRef();	
-    
-    return (
+	const timeRequestRef = useRef();
+
+	return (
 		<div className="dashboard">
 			<section className="player">
+				<MorphingPlayPause
+					isPlaying={isPlaying}
+					onClick={() => {
+						player
+							.togglePlay()
+							.then(
+								() =>
+									!isPlaying &&
+									cancelAnimationFrame(timeRequestRef.current)
+							);
+					}}
+				/>
 				<div className="player--controls">
 					<div className="player--controls--buttons">
 						<div className="player--skip-back player--controls--button__wrapper">
@@ -47,25 +59,6 @@ const Controls = ({
 							>
 								<span className="thirty">30</span>
 								<FontAwesomeIcon icon={faUndoAlt} />
-							</button>
-						</div>
-						<div className="player--play player--controls--button__wrapper">
-							<button
-								onClick={() => {
-									player
-										.togglePlay()
-										.then(
-											() =>
-												!isPlaying &&
-												cancelAnimationFrame(
-													timeRequestRef.current
-												)
-										);
-								}}
-								className="player--play__button player--controls--button"
-							>
-								{/* <FontAwesomeIcon icon={faPlay} ref={playIcon}/> */}
-								<MorphingPlayPause isPlaying={isPlaying} />
 							</button>
 						</div>
 					</div>

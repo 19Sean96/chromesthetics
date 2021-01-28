@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default async (req, res) => {
 	const { token, id } = req.body;
-	console.log(token, id);
+	// console.log(token, id);
 	let response, error
     try {
         response = await axios({
@@ -14,7 +14,7 @@ export default async (req, res) => {
         })
 
         if (response.status) console.log('GET FEATURES STATUS: ', response.status)
-        console.log("THIS IS THE AUDIO FEATURES", response.data);
+        // console.log("THIS IS THE AUDIO FEATURES", response.data);
 
     } catch (err) {
 		console.error(err.response.status, err.response.statusText);

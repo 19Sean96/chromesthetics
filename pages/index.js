@@ -77,25 +77,38 @@ const Index = () => {
 			getSongTimeStamp();
 			requestAnimationFrame(trackSongTime);
 		}
-	};
+  };
+  
+  const refreshTokens = async (refresh_token) => {
+    console.log(refresh_token);
+    const res = await fetch('/api/refreshLogin', {
+      method: 'POST',
+      'Content-Type': 'application/json',
+      body: JSON.stringify({refresh_token: refresh_token})
+    })
+    const result = await res.json()
+    console.log("REFRESH TOKEN RESULT: ", result);
+    setTokens([result.access_token, refresh_token])
+  }
 
 	const checkCookies = () => {
 		let a, b;
 		const cookies = document.cookie.split("; ");
-		if (cookies.length > 2) {
+		if (cookies.length) {
+      console.log(cookies);
 			cookies.forEach((cookie) => {
 				if (cookie.includes("a=")) {
 					a = cookie.slice(2);
-				} else if (cookie.includes("b=")) {
+        }
+        if (cookie.includes("b=")) {
 					b = cookie.slice(2);
-				} else return;
+        }
 			});
-
 			setTokens([a, b]);
 		} else setTimeout(checkCookies, 300);
 	};
 
-	useEffect(() => {
+	useEffect(async () => {
 		window.onSpotifyWebPlaybackSDKReady = () => console.log("It IS READY");
 	}, []);
 
@@ -109,7 +122,7 @@ const Index = () => {
 
 	useEffect(async () => {
 		if (track) {
-      console.log("TRACK INFO: ", track);
+			console.log("TRACK INFO: ", track);
 			const { id } = track.current_track;
 			getSongTimeStamp();
 
@@ -121,7 +134,7 @@ const Index = () => {
 				body: JSON.stringify({ id, token: tokens[0] }),
 			});
 			const analysis = await analysisRes.json();
-      console.log("ANALYSIS RESULTS: ", analysis);
+			console.log("ANALYSIS RESULTS: ", analysis);
 			const featuresRes = await fetch("/api/getFeatures", {
 				method: "POST",
 				headers: {
@@ -130,13 +143,8 @@ const Index = () => {
 				body: JSON.stringify({ id, token: tokens[0] }),
 			});
 			const features = await featuresRes.json();
-      console.log("FEATURES RESULTS: ", features);
+			console.log("FEATURES RESULTS: ", features);
 
-			// getAudioAnalysis(id, tokens[0]).then((analysis) =>
-			// 	getAudioFeatures(id, tokens[0]).then((features) =>
-			// 		setAudioDetails({ features, analysis })
-			// 	)
-			// );
 			setAudioDetails({ features, analysis });
 		}
 	}, [track?.current_track?.id]);
@@ -146,8 +154,8 @@ const Index = () => {
 		checkCookies();
 	}, [router]);
 
-	useEffect(() => {
-		if (tokens.length > 1) {
+	useEffect(async () => {
+		if (tokens[0] && tokens[1]) {
 			console.log("WE NEED TO LOAD THE SDK");
 			handleSDKLoaded().then(() => {
 				setPlayer(
@@ -156,10 +164,14 @@ const Index = () => {
 						getOAuthToken: (cb) => cb(tokens[0]),
 						volume: 0.5,
 					})
-				);
-				setLoggedIn(true);
-			});
-		}
+        );
+        setLoggedIn(true);
+      });
+    } else if (!tokens[0] && tokens[1]) {
+      console.log("ACCESS TOKEN DOES NOT EXIST - WE WILL REFRESH IT");
+      refreshTokens(tokens[1])
+    }
+
 	}, [tokens]);
 
 	useEffect(() => {
@@ -233,8 +245,13 @@ const Index = () => {
 			</Head>
 			<main className="main">
 				{!loggedIn && <Login />}
-				{track && <Track track={track}/>}
-				<Visualizer />
+				{track && <Track track={track} />}
+				<Visualizer
+					time={time}
+					audioDetails={audioDetails}
+					track={track}
+					isPlaying={isPlaying}
+				/>
 				<Controls
 					player={player}
 					isPlaying={isPlaying}

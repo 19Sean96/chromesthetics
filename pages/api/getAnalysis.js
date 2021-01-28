@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default async (req, res) => {
 	const { token, id } = req.body;
-	console.log(token, id);
+	// console.log(token, id);
 	let response, error
     try {
         response = await axios({

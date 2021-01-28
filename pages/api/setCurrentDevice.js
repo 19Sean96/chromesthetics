@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default async (req, res) => {
 	const { token, id } = req.body;
-	console.log(token, id);
+	// console.log(token, id);
 	let response;
 	try {
 		response = await axios({
@@ -18,7 +18,7 @@ export default async (req, res) => {
 		});
 
 		if (response.status) console.log("DEVICE STATUS", response.status);
-		console.log("AVAILABLE DEVICES", response);
+		// console.log("AVAILABLE DEVICES", response);
 	} catch (err) {
 		console.error(err);
 		response = false;

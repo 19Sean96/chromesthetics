@@ -10,8 +10,8 @@ export default () => {
 				attach="material"
 				metalness={1}
 				roughness={0.1}
-				color={"#4aed13"}
-				emissive={"#111"}
+				color={"#999"}
+				emissive={"#122"}
 				side={THREE.DoubleSide}
 				depthTest={true}
 			/>

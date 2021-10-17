@@ -5,7 +5,7 @@ export default () => {
 
 	return (
 		<mesh position={[0, 0, 0]}>
-			<sphereBufferGeometry args={[25, 12, 12]} />
+			<sphereBufferGeometry args={[25, 32, 32]} />
 			<meshStandardMaterial
 				attach="material"
 				metalness={1}

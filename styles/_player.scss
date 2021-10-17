@@ -1,60 +1,126 @@
 .player {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-	width: 81.25vw;
-	height: 92px;
-	// box-shadow: 0 -2px 13px rgba(0, 0, 0, 0.16);
-	border-radius: 23px;
-    // background-color: #f5f5f5;
-    // border: #f5f5f5 2px solid;
-    transform: translate(-50%, 0);
-	&--controls {
+	position: fixed;
+	bottom: 14px;
+	left: 0%;
+	width: 100vw;
+	height: 112px;
+	background-color: black;
+	mix-blend-mode: difference;
 
-		width: 67%;
+
+	&--controls {
+		// background-color: #020202;
+		width: 100%;
 		height: 100%;
+		// padding-bottom: 25px;
+		position: relative;
 
 		&--buttons {
 			display: flex;
 			justify-content: center;
 			align-items: flex-end;
-		}
+			gap: 10px;
+			max-height: 100%;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
 
-		&--button {
-			position: relative;
-			border: none;
-			font-size: 23px;
-			cursor: pointer;
-			svg {
-				position: relative;
-				z-index: 10;
-				path {
-					color: #545eee;
+			#prev,
+			#next {
+				svg {
+					width: 30px;
+					height: auto;
+
+					path {
+						fill: white;
+					}
 				}
 			}
 
-			.thirty {
-				position: absolute;
-				z-index: 5;
-				top: 0%;
-				left: 50%;
-				transform: translate(-50%, -100%) scaleY(0.825);
-				font-size: 10px;
-				color: #545eee;
-				font-weight: bold;
-				opacity: 0.6;
+			#forward30,
+			#backward30 {
+				svg {
+					width: 35px;
+					height: auto;
+
+					path {
+						fill: white;
+					}
+				}
 			}
 
-			&__wrapper {
-				margin: 5px 15px;
+			.btn {
+				position: relative;
+				border: none;
+				cursor: pointer;
+				padding: 10px;
+				background-color: transparent;
+
+				&--play {
+					outline: none;
+					position: relative;
+					width: 75px;
+					height: 75px;
+
+					border-radius: 50%;
+					background-color: #fff;
+					box-shadow: 0 1px 14px rgba(0, 0, 0, 0.22);
+
+					transition: 0.2s all;
+					svg {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+						transition: transform 0.125s;
+						width: 55%;
+						overflow: visible;
+						path {
+							fill: #020202;
+						}
+					}
+					&:focus {
+						background-color: rgba(255, 255, 255, 0.8);
+					}
+				}
 			}
 		}
 	}
 
 	&--progressbar {
 		position: relative;
+		bottom: 0;
 		width: 100%;
-		height: 12px;
+		height: 14px;
+		background-color: white;
+
+		&__input {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			-webkit-appearance: none;
+			appearance: none;
+
+			width: 100%;
+			height: 100%;
+			background-color: #fff;
+			outline: none;
+			overflow: hidden;
+			// box-shadow: inset 0 0 5px rgba(0,0,0, 1);
+
+			&::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				appearance: none;
+
+				width: 14px;
+				height: 14px;
+				border-radius: 50%;
+				background-color: rgb(113, 221, 11);
+				cursor: pointer;
+				box-shadow: calc(-400vw - 6px) 0 0 400vw rgb(113, 221, 11);
+			}
+		}
 
 		&--full {
 			position: absolute;
@@ -89,46 +155,51 @@
 		}
 	}
 
-	&--play {
-        position: absolute;
-        bottom: 50%;
-        left: 0;
-		width: 135px;
-		height: 135px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-		&__button {
-            outline: none;
+	&--infobox {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		// background-color: black;
 
-			width: 100%;
-			height: 100%;
-            border-radius: 50%;
-            border: 2px solid #f5f5f5;
-            // background-color: #545eee;
-            background-color: rgba(0,0,0,.4);
-			box-shadow: 0 1px 14px rgba(0, 0, 0, 0.22);
+		&__covers {
 			display: flex;
-			justify-content: center;
-			align-items: center;
-            padding: 2.5rem;
-            transition: .2s all;
-			svg {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transition: transform 0.125s;
-				font-size: 23px;
-				position: relative;
-				width: 100%;
-				overflow: visible;
-				path {
-					color: #f5f5f5;
-				}
-            }
-            &:focus {
-                background-color: rgba(0,0,0,.8);
-            }
+			align-items: flex-end;
+			gap: 8px;
+
+			img:not(.cover-current) {
+				cursor: pointer;
+			}
+			.cover-previous,
+			.cover-next {
+				width: 90px;
+				height: auto;
+			}
+
+			.cover-current {
+				width: 135px;
+			}
+		}
+
+		&__track-info {
+			text-align: left;
+			padding: 10px 0 5px 7px;
+			.artist {
+				text-transform: uppercase;
+				font-family: neue-haas-grotesk-display, sans-serif;
+				font-weight: 400;
+				font-style: normal;
+				font-size: 22px;
+				color: white;
+
+			}
+			.song {
+				font-family: neue-haas-grotesk-display, sans-serif;
+				font-weight: 900;
+				font-style: normal;
+				font-size: 22px;
+				color: white;
+
+			}
 		}
 	}
 }

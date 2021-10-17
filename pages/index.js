@@ -7,7 +7,8 @@ import { useRouter } from "next/router";
 import Visualizer from "../components/Visualizer";
 import Controls from "../components/Controls";
 import Login from "../components/Login";
-import Track from "../components/Info/Track";
+import DevInterface from '../components/DevInterface'
+
 const Index = () => {
 	const requestRef = useRef(null);
 
@@ -244,8 +245,12 @@ const Index = () => {
 				></script>
 			</Head>
 			<main className="main">
+				{track && audioDetails && <DevInterface 
+					track={track}
+					time={time}
+					audioDetails={audioDetails}
+				/>}
 				{!loggedIn && <Login />}
-				{track && <Track track={track} />}
 				<Visualizer
 					time={time}
 					audioDetails={audioDetails}

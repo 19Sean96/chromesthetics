@@ -1,6 +1,8 @@
 @import './track';
 @import './login';
 @import './player';
+@import './interface';
+@import url("https://use.typekit.net/hra0rkg.css");
 
 * {
 	color: black;
@@ -17,7 +19,7 @@ body {
   height: 100vh;
 	text-align: center;
   background-color: #f5f5f5;  
-  font-family: reason-new, sans-serif;
+  font-family: neue-haas-grotesk-text, sans-serif;
 	font-weight: 400;
   font-style: normal;
   font-size: calc(10px + 2vmin);

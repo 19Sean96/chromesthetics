@@ -7,18 +7,20 @@ import { OrbitControls } from "drei";
 import cubes from "../../data/cubes";
 import MovingLight from "./MovingLight";
 import Surroundings from "./Surroundings";
-import Cube from './Cube'
+import Cube from "./Cube";
 const Visualizer = ({ time, audioDetails, track, isPlaying }) => {
 	return (
 		<Canvas
 			camera={{
-				fov: 95,
+				fov: 100,
 				orthographic: true,
 				position: [0, 0, 22.5],
 			}}
 		>
 			<OrbitControls />
 			<Surroundings />
+
+			{/* <axesHelper /> */}
 			{audioDetails?.features && (
 				<>
 					<MovingLight
@@ -62,16 +64,19 @@ const Visualizer = ({ time, audioDetails, track, isPlaying }) => {
 					/>
 				</>
 			)}
-			{audioDetails?.analysis && cubes.map((cube, i) => <Cube 
-				position={cube.pos}
-				time={time}
-				audioDetails={audioDetails}
-				scaleIndex={cube.scaleIndex}
-				rotationIndex={cube.rotationIndex}
-				track={track}							
-				color={i % 2 === 0 ? "#333" : "#ddd"}
-				isPlaying={isPlaying}
-			/>)}
+			{audioDetails?.analysis &&
+				cubes.map((cube, i) => (
+					<Cube
+						position={cube.pos}
+						time={time}
+						audioDetails={audioDetails}
+						scaleIndex={cube.scaleIndex}
+						rotationIndex={cube.rotationIndex}
+						track={track}
+						color={i % 2 === 0 ? "#333" : "#ddd"}
+						isPlaying={isPlaying}
+					/>
+				))}
 		</Canvas>
 	);
 };
